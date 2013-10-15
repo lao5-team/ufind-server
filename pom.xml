@@ -12,10 +12,16 @@
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <powermock.version>1.5</powermock.version>
+        <powermock.version>1.5</powermock.version> 
     </properties>
 
     <dependencies>
+    		<dependency>
+     				<groupId>mysql</groupId>
+     				<artifactId>mysql-connector-java</artifactId>
+     				<version>5.1.13</version>
+    		</dependency>
+    
         <dependency>
             <groupId>org.eclipse.jetty</groupId>
             <artifactId>jetty-server</artifactId>
