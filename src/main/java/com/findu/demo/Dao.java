@@ -7,7 +7,7 @@ public class Dao {
 	private PreparedStatement mPstat;
 	String mSql = "";
 	public String mSql_DBName = "findu";
-	public String mSql_Url = "jdbc:mysql://localhost:3306/";
+	public String mSql_Url = "jdbc:mysql://localhost:3306";
 	public String mUsers = "root";
 	public String mPwd = "mysql";
 
@@ -34,24 +34,27 @@ public class Dao {
 	 * yonghu zhuce
 	 */
 	public boolean login(User user) throws SQLException {
-		mConn = DriverManager.getConnection(mSql_Url 
+		mConn = DriverManager.getConnection(mSql_Url + "/" + mSql_DBName
 				+ "?user=" + mUsers + "&password=" + mPwd
 				+ "&useUnicode=true&characterEncoding=gb2312");
+		System.out.println("dao login");
 		boolean i = false;
-		mSql = "select * from user where user=? and pwd=?";
+		mSql = "select * from findu where user=? and password=?";
 
 		mPstat = mConn.prepareStatement(mSql);
 
 		mPstat.setString(1, user.getUser());
 		mPstat.setString(2, user.getPwd());
-
+		System.out.println("prepareStatement");
 		ResultSet rs1 = (ResultSet) mPstat.executeQuery();
+
 		if (rs1.next()) {
 			i = true;
 			rs1.close();
 			mPstat.close();
 		} else {
 			i = false;
+
 			rs1.close();
 			mPstat.close();
 		}

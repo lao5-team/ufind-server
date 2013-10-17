@@ -34,16 +34,22 @@ public class LoginServlet extends HttpServlet {
 		request.setCharacterEncoding("UTF-8");
 		BufferedReader reader = new BufferedReader(new InputStreamReader(request.getInputStream()));
 
+		String username = "";
+		String password = "";
 		while ((msg = reader.readLine()) != null) {//无法读取到
 			System.out.println("receive Request message:" + msg);
+			if(msg.startsWith("#username#=")){
+				username = msg.substring(11);
+			}
+			if(msg.startsWith("#pwd#=")){
+				password = msg.substring(6);
+			}
 			
 		}
 		
-		String reusername = request.getParameter("username");
-		String repassword = request.getParameter("password");
-		System.out.println("receive Request user:" + reusername);
-		System.out.println("receive Request password:" + repassword);
-		boolean isLogin = checklogin(reusername, repassword);
+		System.out.println("receive Request user:" + username);
+		System.out.println("receive Request password:" + password);
+		boolean isLogin = checklogin(username, password);
 		if (isLogin) {
 			//response.sendRedirect("MyJsp.jsp");
 			msg = "login-ok";
@@ -63,6 +69,7 @@ public class LoginServlet extends HttpServlet {
 			Dao dao = new Dao();
 			return dao.login(new User(username, password, null, null));
 		} catch (Exception e) {
+			System.out.println("check login");
 			System.out.println(e.toString());
 			return false;
 		}
