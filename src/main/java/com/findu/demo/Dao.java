@@ -42,19 +42,23 @@ public class Dao {
 		mSql = "select * from findu where user=? and password=?";
 
 		mPstat = mConn.prepareStatement(mSql);
-
+		System.out.println(user.getUser());
+		System.out.println(user.getPwd());
 		mPstat.setString(1, user.getUser());
 		mPstat.setString(2, user.getPwd());
 		System.out.println("prepareStatement");
-		ResultSet rs1 = (ResultSet) mPstat.executeQuery();
-
+		ResultSet rs1 = (ResultSet) mPstat.executeQuery();	
+		
 		if (rs1.next()) {
+			System.out.println("login ok");
 			i = true;
 			rs1.close();
 			mPstat.close();
 		} else {
 			i = false;
-
+			System.out.println("login fail");
+			System.out.println(rs1.getString("user").length());
+			System.out.println(rs1.getString("password"));
 			rs1.close();
 			mPstat.close();
 		}
@@ -70,7 +74,7 @@ public class Dao {
 			mConn = DriverManager.getConnection(mSql_Url + "/" + mSql_DBName
 					+ "?user=" + mUsers + "&password=" + mPwd
 					+ "&useUnicode=true&characterEncoding=gb2312");
-			mSql = "insert into user values(?,?,?,?,?)";
+			mSql = "insert into findu values(?,?,?,?)";
 			mPstat = mConn.prepareStatement(mSql);
 			mPstat.setString(1, user.getUser());
 			mPstat.setString(2, user.getPwd());

@@ -17,6 +17,9 @@ public class ServerMain {
 
 		// http://localhost:8080/login
 		context.addServlet(new ServletHolder(new LoginServlet()), "/login");
+		
+		// http://localhost:8080/login
+		context.addServlet(new ServletHolder(new AddUserServlet()), "/adduser");
 
 		// http://localhost:8080/hello
 		context.addServlet(new ServletHolder(new HelloServlet()), "/hello");
