@@ -40,7 +40,7 @@ public class Dao {
 		System.out.println("dao login");
 		boolean i = false;
 		mSql = "select * from findu where user=? and password=?";
-
+		//System.out.println(mSql);
 		mPstat = mConn.prepareStatement(mSql);
 		System.out.println(user.getUser());
 		System.out.println(user.getPwd());
