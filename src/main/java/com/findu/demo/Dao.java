@@ -39,13 +39,18 @@ public class Dao {
 				+ "&useUnicode=true&characterEncoding=gb2312");
 		System.out.println("dao login");
 		boolean i = false;
+<<<<<<< HEAD
 		mSql = "select * from findu where user=? and password=?";
 		//System.out.println(mSql);
+=======
+		mSql = "select * from findu where openid=?";
+
+>>>>>>> 6c69e2c89e63705b2eec7b9c703c6741b4b8d65e
 		mPstat = mConn.prepareStatement(mSql);
-		System.out.println(user.getUser());
-		System.out.println(user.getPwd());
-		mPstat.setString(1, user.getUser());
-		mPstat.setString(2, user.getPwd());
+		System.out.println(user.getOpenId());
+//		System.out.println(user.getPwd());
+		mPstat.setString(1, user.getOpenId());
+//		mPstat.setString(2, user.getPwd());
 		System.out.println("prepareStatement");
 		ResultSet rs1 = (ResultSet) mPstat.executeQuery();	
 		
@@ -57,8 +62,8 @@ public class Dao {
 		} else {
 			i = false;
 			System.out.println("login fail");
-			System.out.println(rs1.getString("user").length());
-			System.out.println(rs1.getString("password"));
+//			System.out.println(rs1.getString("openid").length());
+//			System.out.println(rs1.getString("password"));
 			rs1.close();
 			mPstat.close();
 		}
@@ -74,12 +79,16 @@ public class Dao {
 			mConn = DriverManager.getConnection(mSql_Url + "/" + mSql_DBName
 					+ "?user=" + mUsers + "&password=" + mPwd
 					+ "&useUnicode=true&characterEncoding=gb2312");
-			mSql = "insert into findu values(?,?,?,?)";
+			mSql = "insert into findu(openid,ownid,userid,pwd,friendsis,recoredid,picture) values(?,?,?,?,?,?,?)";
 			mPstat = mConn.prepareStatement(mSql);
-			mPstat.setString(1, user.getUser());
-			mPstat.setString(2, user.getPwd());
-			mPstat.setString(3, user.getName());
-			mPstat.setString(4, user.getPicture());
+			mPstat.setString(1, user.getOpenId());
+			mPstat.setString(2, user.getOwnId());
+			mPstat.setString(3, user.getUser());
+			mPstat.setString(4, user.getPwd());
+			mPstat.setInt(5, user.getFriendsId());
+			mPstat.setInt(6, user.getRecordId());
+			mPstat.setString(7, user.getPicture());
+
 			mPstat.executeUpdate();
 			mPstat.close();
 			mConn.close();
