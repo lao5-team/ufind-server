@@ -1,27 +1,46 @@
 package com.findu.demo;
 
 public class User {
-	private String user = "";
-	private String pwd = "";
-	private String name = "";
-	private String picture = "";
 
-	public User(){
-		
+	private String openid = "";// qq returned id
+	private String ownid = ""; // we created id
+	private String userid = "";
+	private String pwd = "";
+	private String picture = "";
+	private int frindsid = -1;
+	private int recordid = -1;
+
+	public User() {
+
 	}
-	
-	public User(String user, String pwd, String name, String picture){
-		this.user = user;
+
+	public User(String openid, String ownid, String userid, String pwd,
+			String picture) {
+		this.openid = openid;
+		this.ownid = ownid;
+		this.userid = userid;
 		this.pwd = pwd;
-		this.name = name;
 		this.picture = picture;
 	}
+
+	public String getOpenId() {
+		return openid;
+	}
+
+	public String getOwnId() {
+		return ownid;
+	}
+
+	public void setOwnId(String ownid) {
+		this.ownid = ownid;
+	}
+
 	public String getUser() {
-		return user;
+		return userid;
 	}
 
 	public void setUser(String user) {
-		this.user = user;
+		this.userid = user;
 	}
 
 	public String getPwd() {
@@ -32,14 +51,6 @@ public class User {
 		this.pwd = pwd;
 	}
 
-	public String getName() {
-		return name;
-	}
-
-	public void setName(String name) {
-		this.name = name;
-	}
-
 	public String getPicture() {
 		return picture;
 	}
@@ -47,6 +58,13 @@ public class User {
 	public void setPicture(String picture) {
 		this.picture = picture;
 	}
-
+	
+	public int getFriendsId() {
+		return frindsid;
+	}
+	
+	public int getRecordId() {
+		return recordid;
+	}
 
 }
