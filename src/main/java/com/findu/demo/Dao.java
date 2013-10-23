@@ -39,13 +39,9 @@ public class Dao {
 				+ "&useUnicode=true&characterEncoding=gb2312");
 		System.out.println("dao login");
 		boolean i = false;
-<<<<<<< HEAD
-		mSql = "select * from findu where user=? and password=?";
-		//System.out.println(mSql);
-=======
-		mSql = "select * from findu where openid=?";
 
->>>>>>> 6c69e2c89e63705b2eec7b9c703c6741b4b8d65e
+		mSql = "select * from findu where user=? and password=?";
+
 		mPstat = mConn.prepareStatement(mSql);
 		System.out.println(user.getOpenId());
 //		System.out.println(user.getPwd());
