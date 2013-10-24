@@ -1,7 +1,7 @@
 package com.findu.demo;
 
 public class User {
-
+ 
 	private String openid = "";// qq returned id
 	private String ownid = ""; // we created id
 	private String userid = "";
@@ -11,7 +11,7 @@ public class User {
 	private int recordid = -1;
 
 	public User() {
-
+    //
 	}
 
 	public User(String openid, String ownid, String userid, String pwd,
