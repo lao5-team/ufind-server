@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.UnsupportedEncodingException;
+import java.sql.*;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -25,54 +26,111 @@ public class LoginServlet extends HttpServlet {
 	@Override
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp)
 			throws ServletException, IOException {
+		System.out.println("do post");
 		doGet(req, resp);
 	}
 
 	@Override
 	protected void doGet(HttpServletRequest request,
 			HttpServletResponse response) throws ServletException, IOException {
-		request.setCharacterEncoding("UTF-8");
-		BufferedReader reader = new BufferedReader(new InputStreamReader(request.getInputStream()));
 
-		String username = "";
-		String password = "";
-		while ((msg = reader.readLine()) != null) {//无法读取到
-			System.out.println("receive Request message:" + msg);
-			if(msg.startsWith("#username#=")){
-				username = msg.substring(11);
-			}
-			if(msg.startsWith("#pwd#=")){
-				password = msg.substring(6);
-			}
-			
+		BufferedReader reader = new BufferedReader(new InputStreamReader(
+				request.getInputStream()));
+
+		String msg = "";
+		System.out.println("first login");
+		msg = reader.readLine();
+		System.out.println("first login message:" + msg);
+		if (!isUserLoginAction(msg)) {
+			return;
 		}
-		
-		System.out.println("receive Request user:" + username);
-		System.out.println("receive Request password:" + password);
-		boolean isLogin = checklogin(username, password);
-		if (isLogin) {
-			//response.sendRedirect("MyJsp.jsp");
-			msg = "login-ok";
-		} else {
-			//response.sendRedirect("index.jsp");
-			msg = "login-fail";
+
+		doUserLoginAction(request, response, reader, msg);
+
+	}
+
+	private void doUserLoginAction(HttpServletRequest request,
+			HttpServletResponse response, BufferedReader reader, String msg)
+			throws ServletException, IOException {
+
+		String qqid = "";
+		String nickname = "";
+		String picture = "";
+		String userid = null;
+		String pwd = null;
+		int loginType = -1;
+
+		while ((msg = reader.readLine()) != null) {// 无法读取到
+			System.out.println("receive login message:" + msg);
+
+			//login#logintype#
+			if (msg.startsWith(DataStruct.LOGIN_TYPE)) {
+				loginType = Integer.parseInt(msg
+						.substring(DataStruct.LOGIN_TYPE.length()));
+			}
+			if (loginType == DataStruct.QQ_LOGIN) {
+				if (msg.startsWith(DataStruct.QQ_ID)) {
+					qqid = msg.substring(DataStruct.QQ_ID.length());
+				}
+				if (msg.startsWith(DataStruct.NICKNAME)) {
+					nickname = msg.substring(DataStruct.NICKNAME.length());
+				}
+				if (msg.startsWith(DataStruct.PICTURE)) {
+					picture = msg.substring(DataStruct.PICTURE.length());
+				}
+
+			} else if (loginType == DataStruct.FINDU_LOGIN) {
+
+			}
+
 		}
+
+		if (loginType == -1
+				|| (loginType == DataStruct.QQ_LOGIN && qqid.equals(""))) {
+			doResponse(request, response, DataStruct.ACTION_LOGINUSER + ":"
+					+ DataStruct.RESULT_OK);
+			return;
+		}
+
+		String ownid = createOwnId(qqid);
+		User user = new User(qqid, ownid, userid, pwd, picture);
+
 		response.setContentType("text/html");
+		response.setCharacterEncoding("utf-8");
+
+		Dao dao = new Dao();
+		boolean added = false;
+		try{
+			dao.login(user);
+			added = true;
+		}catch(SQLException e) {
+			e.printStackTrace();
+		}
+
+		if (added) {
+			msg = DataStruct.ACTION_LOGINUSER + ":" + DataStruct.RESULT_OK;
+		} else {
+			msg = DataStruct.ACTION_LOGINUSER + ":" + DataStruct.RESULT_ADD;
+		}
+		doResponse(request, response, msg);
+
+	}
+
+	private void doResponse(HttpServletRequest request,
+			HttpServletResponse response, String msg) throws ServletException,
+			IOException {
+
 		response.setStatus(HttpServletResponse.SC_OK);
 		response.getWriter().println("<h1>" + msg + "</h1>");
 		response.getWriter().println(
 				"session=" + request.getSession(true).getId());
 	}
 
-	public boolean checklogin(String username, String password) {
-		try {
-			Dao dao = new Dao();
-			return dao.login(new User(username, password, null, null));
-		} catch (Exception e) {
-			System.out.println("check login");
-			System.out.println(e.toString());
-			return false;
-		}
+	private String createOwnId(String qqid) {
+		return "findu" + qqid;
 	}
 
+	private boolean isUserLoginAction(String msg) {
+		return msg.equals(DataStruct.ACTION_LOGINUSER);
+	}
 }
