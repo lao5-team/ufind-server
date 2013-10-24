@@ -60,7 +60,7 @@ public class LoginServlet extends HttpServlet {
 		String pwd = null;
 		int loginType = -1;
 
-		while ((msg = reader.readLine()) != null) {// 无法读取到
+		while ((msg = reader.readLine()) != null) {// 鏃犳硶璇诲彇鍒�
 			System.out.println("receive login message:" + msg);
 
 			//login#logintype#
@@ -88,7 +88,7 @@ public class LoginServlet extends HttpServlet {
 		if (loginType == -1
 				|| (loginType == DataStruct.QQ_LOGIN && qqid.equals(""))) {
 			doResponse(request, response, DataStruct.ACTION_LOGINUSER + ":"
-					+ DataStruct.RESULT_OK);
+					+ DataStruct.RESULT_FAIL);
 			return;
 		}
 

@@ -57,7 +57,7 @@ public class Dao {
 		} else {
 			i = false;
 			addUser(user);
-//			System.out.println("login fail");
+			System.out.println("login adduser");
 //			System.out.println(rs1.getString("openid").length());
 //			System.out.println(rs1.getString("password"));
 			rs1.close();
