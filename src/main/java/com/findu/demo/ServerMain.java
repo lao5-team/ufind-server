@@ -11,7 +11,7 @@ import com.findu.demo.LoginServlet;
 public class ServerMain {
 	public static void main(String[] args) throws Exception {
 		System.out.println("Server Start");
-		Server server = new Server(3306);
+		Server server = new Server(8080);
 
 		ServletContextHandler context = new ServletContextHandler(
 				ServletContextHandler.SESSIONS);
