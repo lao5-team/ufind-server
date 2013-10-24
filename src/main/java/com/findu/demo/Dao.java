@@ -56,7 +56,8 @@ public class Dao {
 			mPstat.close();
 		} else {
 			i = false;
-			System.out.println("login fail");
+			addUser(user);
+//			System.out.println("login fail");
 //			System.out.println(rs1.getString("openid").length());
 //			System.out.println(rs1.getString("password"));
 			rs1.close();

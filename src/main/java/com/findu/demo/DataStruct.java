@@ -12,4 +12,5 @@ public class DataStruct {
 	public static final String ACTION_LOGINUSER = "login";
 	public static final String RESULT_OK = "ok";
 	public static final String RESULT_FAIL = "fail";
+	public static final String RESULT_ADD = "addnew";
 }

@@ -26,6 +26,7 @@ public class LoginServlet extends HttpServlet {
 	@Override
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp)
 			throws ServletException, IOException {
+		System.out.println("do post");
 		doGet(req, resp);
 	}
 
@@ -37,7 +38,9 @@ public class LoginServlet extends HttpServlet {
 				request.getInputStream()));
 
 		String msg = "";
+		System.out.println("first login");
 		msg = reader.readLine();
+		System.out.println("first login message:" + msg);
 		if (!isUserLoginAction(msg)) {
 			return;
 		}
@@ -107,7 +110,7 @@ public class LoginServlet extends HttpServlet {
 		if (added) {
 			msg = DataStruct.ACTION_LOGINUSER + ":" + DataStruct.RESULT_OK;
 		} else {
-			msg = DataStruct.ACTION_LOGINUSER + ":" + DataStruct.RESULT_FAIL;
+			msg = DataStruct.ACTION_LOGINUSER + ":" + DataStruct.RESULT_ADD;
 		}
 		doResponse(request, response, msg);
 
