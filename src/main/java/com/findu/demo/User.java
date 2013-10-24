@@ -8,11 +8,8 @@ public class User {
 	private String pwd = "";
 	private String name = "";
 	private String picture = "";
-	private int frindsid = -1;
-	private int recordid = -1;
 
-	public User() {
-
+	public User(){
 		
 	}
 	
