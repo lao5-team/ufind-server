@@ -110,7 +110,7 @@ public class LoginServlet extends HttpServlet {
 		if (added) {
 			msg = DataStruct.ACTION_LOGINUSER + ":" + DataStruct.RESULT_OK;
 		} else {
-			msg = DataStruct.ACTION_LOGINUSER + ":" + DataStruct.RESULT_ADD;
+			msg = DataStruct.ACTION_LOGINUSER + ":" + DataStruct.RESULT_FAIL;
 		}
 		doResponse(request, response, msg);
 
