@@ -81,6 +81,12 @@ public class LoginServlet extends HttpServlet {
 
 			} else if (loginType == DataStruct.FINDU_LOGIN) {
 
+				if (msg.startsWith(DataStruct.USERID)) {
+					qqid = msg.substring(DataStruct.USERID.length());
+				}
+				if (msg.startsWith(DataStruct.USERPWD)) {
+					pwd = msg.substring(DataStruct.USERPWD.length());
+				}
 			}
 
 		}

@@ -94,13 +94,10 @@ public class AddUserServlet extends HttpServlet {
 		response.setCharacterEncoding("utf-8");
 
 		Dao dao = new Dao();
-		boolean added = dao.addUser(user);
+		long id = dao.addUser(user);
 
-		if (added) {
-			msg = DataStruct.ACTION_ADDUSER + ":" + DataStruct.RESULT_OK;
-		} else {
-			msg = DataStruct.ACTION_ADDUSER + ":" + DataStruct.RESULT_FAIL;
-		}
+		msg = DataStruct.ACTION_ADDUSER + ":" + id;
+		
 		doResponse(request, response, msg);
 
 	}

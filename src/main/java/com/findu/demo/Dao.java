@@ -32,7 +32,7 @@ public class Dao {
 
 	/**
 	 * 
-	 * yonghu zhuce
+	 * yonghu login
 	 */
 	public boolean login(User user) throws SQLException {
 		mConn = DriverManager.getConnection(mSql_Url + "/" + mSql_DBName
@@ -71,7 +71,8 @@ public class Dao {
 	/**
 	 * 
 	 */
-	public boolean addUser(User user) {
+	public long addUser(User user) {
+		long id = -1;
 		try {
 			mConn = DriverManager.getConnection(mSql_Url + "/" + mSql_DBName
 					+ "?user=" + mUsers + "&password=" + mPwd
@@ -87,16 +88,23 @@ public class Dao {
 			mPstat.setString(7, user.getPicture());
 
 			mPstat.executeUpdate();
+			
+			mSql = "select * from findu where openid=" + user.getOpenId();
+			mPstat = mConn.prepareStatement(mSql);
+			ResultSet rs1 = (ResultSet)mPstat.executeQuery();
+			if(rs1.next()){
+				id = rs1.getLong(1);
+			}
 			mPstat.close();
 			mConn.close();
-			return true;
+			return id;
 
 		} catch (SQLException e) {
 			System.out.println("add e");
 			e.printStackTrace();
 		}
 
-		return false;
+		return id;
 
 	}
 
