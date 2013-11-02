@@ -13,13 +13,14 @@ public class Dao {
 
 	public Dao() {
 		String driver = "com.mysql.jdbc.Driver";
-		//String url = "jdbc:mysql://localhost/findu";
+		// String url = "jdbc:mysql://localhost/findu";
 		try {
 			Class.forName(driver);
 			try {
 				System.out.println("class load over");
 				mConn = DriverManager.getConnection(mSql_Url, mUsers, mPwd);
-				//mConn = DriverManager.getConnection("jdbc:mysql://localhost:3306/findu?user=root&password=");
+				// mConn =
+				// DriverManager.getConnection("jdbc:mysql://localhost:3306/findu?user=root&password=");
 			} catch (SQLException e) {
 				System.out.println("connect e");
 				e.printStackTrace();
@@ -43,12 +44,12 @@ public class Dao {
 
 		mPstat = mConn.prepareStatement(mSql);
 		System.out.println(user.getOpenId());
-//		System.out.println(user.getPwd());
+		// System.out.println(user.getPwd());
 		mPstat.setString(1, user.getOpenId());
-//		mPstat.setString(2, user.getPwd());
+		// mPstat.setString(2, user.getPwd());
 		System.out.println("prepareStatement");
-		ResultSet rs1 = (ResultSet) mPstat.executeQuery();	
-		
+		ResultSet rs1 = (ResultSet) mPstat.executeQuery();
+
 		if (rs1.next()) {
 			System.out.println("login ok");
 			i = true;
@@ -58,8 +59,8 @@ public class Dao {
 			i = false;
 			addUser(user);
 			System.out.println("login adduser");
-//			System.out.println(rs1.getString("openid").length());
-//			System.out.println(rs1.getString("password"));
+			// System.out.println(rs1.getString("openid").length());
+			// System.out.println(rs1.getString("password"));
 			rs1.close();
 			mPstat.close();
 		}
@@ -94,8 +95,30 @@ public class Dao {
 			System.out.println("add e");
 			e.printStackTrace();
 		}
-		
+
 		return false;
 
+	}
+
+	public boolean update(String sqlstring) {
+		try {
+			mConn = DriverManager.getConnection(mSql_Url + "/" + mSql_DBName
+					+ "?user=" + mUsers + "&password=" + mPwd
+					+ "&useUnicode=true&characterEncoding=gb2312");
+			System.out.println("dao update");
+
+			mPstat = mConn.prepareStatement(sqlstring);
+			mPstat.executeUpdate();
+			mPstat.close();
+			mConn.close();
+
+		} catch (SQLException e) {
+			System.out.println("update e");
+			e.printStackTrace();
+
+			return false;
+		}
+
+		return true;
 	}
 }

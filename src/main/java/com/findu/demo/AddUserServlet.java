@@ -44,7 +44,7 @@ public class AddUserServlet extends HttpServlet {
 		String pwd = null;
 		int loginType = -1;
 
-		while ((msg = reader.readLine()) != null) {// 无法读取到
+		while ((msg = reader.readLine()) != null) {//
 			System.out.println("receive adduser message:" + msg);
 
 			if (msg.startsWith(DataStruct.LOGIN_TYPE)) {
@@ -64,6 +64,18 @@ public class AddUserServlet extends HttpServlet {
 
 			} else if (loginType == DataStruct.FINDU_LOGIN) {
 
+				if (msg.startsWith(DataStruct.USERID)) {
+					userid = msg.substring(DataStruct.USERID.length());
+				}
+				if (msg.startsWith(DataStruct.USERPWD)) {
+					pwd = msg.substring(DataStruct.USERPWD.length());
+				}
+				if (msg.startsWith(DataStruct.NICKNAME)) {
+					nickname = msg.substring(DataStruct.NICKNAME.length());
+				}
+				if (msg.startsWith(DataStruct.PICTURE)) {
+					picture = msg.substring(DataStruct.PICTURE.length());
+				}
 			}
 
 		}
@@ -75,8 +87,8 @@ public class AddUserServlet extends HttpServlet {
 			return;
 		}
 
-		String ownid = createOwnId(qqid);
-		User user = new User(qqid, ownid, userid, pwd, picture);
+//		String ownid = createOwnId(qqid);
+		User user = new User(qqid, "", userid, pwd, picture);
 
 		response.setContentType("text/html");
 		response.setCharacterEncoding("utf-8");
@@ -116,7 +128,7 @@ public class AddUserServlet extends HttpServlet {
 		 * String qqid = ""; String nickname = ""; String picture = ""; String
 		 * userid = null; String pwd = null; int loginType = -1;
 		 * 
-		 * while ((msg = reader.readLine()) != null) {//无法读取到
+		 * while ((msg = reader.readLine()) != null) {//
 		 * System.out.println("receive adduser message:" + msg);
 		 * 
 		 * if(msg.startsWith(LOGIN_TYPE)){ loginType =
